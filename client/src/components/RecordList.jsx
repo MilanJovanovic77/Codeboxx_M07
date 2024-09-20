@@ -7,16 +7,19 @@ const Record = (props) => (
       {props.record.name}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-      {props.record.region} {/* Changed from position to region */}
+    {props.record.position} 
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-      {props.record.sales} {/* Changed from level to sales */}
+      {props.record.region} {/* New field  */}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {props.record.rating} {/* New field */}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {props.record.fees} {/* New field */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.sales} {/* Changed from level to sales */}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       <div className="flex gap-2">
@@ -94,16 +97,19 @@ export default function RecordList() {
                   Full Name
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Region {/* Changed from Position to Region */}
+                  Position 
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Sales {/* Changed from Level to Sales */}
+                  Region {/* New column */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
                   Rating {/* New column */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Fees {/* New column */}
+                  Fees (USD) {/* New column */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Sales (USD) {/* Changed from Level to Sales */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
                   Action
