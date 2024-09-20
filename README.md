@@ -97,3 +97,18 @@ Currently, two official plugins are available:
         We might use Node.js with Express on the backend if we want to build the server side of our app in JavaScript.
         We could also consider Django if we prefer Python for building the backend, as it helps us handle the server-side part of our app with lots of built-in tools.
 # ---------------------------------------------------------------------------------------------------
+
+# Arborescence
+server/
+├── db/
+│   ├── connection.js           // MongoDB connection script
+│   └── routes/
+│       ├── record.js           // Existing records API
+│       └── auth.js             // New authentication routes
+├── middleware/
+│   └── authMiddleware.js       // Optional: Authentication middleware
+├── models/
+│   └── user.js                 // Optional: User model (if using Mongoose)
+├── .env                         // Environment variables
+├── config.env                   // Additional configuration (if needed)
+└── server.js                    // Main server file
