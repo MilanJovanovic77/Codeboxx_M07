@@ -7,10 +7,16 @@ const Record = (props) => (
       {props.record.name}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-      {props.record.position}
+      {props.record.region} {/* Changed from position to region */}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-      {props.record.level}
+      {props.record.sales} {/* Changed from level to sales */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.rating} {/* New field */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.fees} {/* New field */}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       <div className="flex gap-2">
@@ -38,23 +44,22 @@ const Record = (props) => (
 export default function RecordList() {
   const [records, setRecords] = useState([]);
 
-// This method fetches the records from the database.
-useEffect(() => {
-  async function getRecords() {
-    const response = await fetch(`http://localhost:5050/record/`);
-    if (!response.ok) {
-      const message = `An error occurred: ${response.statusText}`;
-      console.error(message);
-      return;
+  // Fetch the records from the database
+  useEffect(() => {
+    async function getRecords() {
+      const response = await fetch(`http://localhost:5050/record/`);
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+      const records = await response.json();
+      setRecords(records);
     }
-    const records = await response.json();
-    setRecords(records);
-  }
-  getRecords();
-  return;
-}, [records.length]);;
+    getRecords();
+  }, []);
 
-  // This method will delete a record
+  // Delete a record
   async function deleteRecord(id) {
     await fetch(`http://localhost:5050/record/${id}`, {
       method: "DELETE",
@@ -63,7 +68,7 @@ useEffect(() => {
     setRecords(newRecords);
   }
 
-  // This method will map out the records on the table
+  // Map out the records for the table
   function recordList() {
     return records.map((record) => {
       return (
@@ -76,10 +81,10 @@ useEffect(() => {
     });
   }
 
-  // This following section will display the table with the records of individuals.
+  // Display the table with the records of agents
   return (
     <>
-      <h3 className="text-lg font-semibold p-4">Employee Records</h3>
+      <h3 className="text-lg font-semibold p-4">Agents List</h3> {/* Updated title */}
       <div className="border rounded-lg overflow-hidden">
         <div className="relative w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">
@@ -89,10 +94,16 @@ useEffect(() => {
                   Name
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Position
+                  Region {/* Changed from Position to Region */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Level
+                  Sales {/* Changed from Level to Sales */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Rating {/* New column */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Fees {/* New column */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
                   Action
