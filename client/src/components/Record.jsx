@@ -71,30 +71,31 @@ export default function Record() {
               This information will be displayed publicly so be careful what you share.
             </p>
           </div>
-
-          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8">
-            <div className="sm:col-span-4">
+  
+          <div className="grid max-w-2xl grid-cols-2 gap-x-6 gap-y-8">
+            {/* Full Name */}
+            <div className="col-span-1">
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-slate-900">Full Name</label>
               <div className="mt-2">
                 <input
                   type="text"
                   name="name"
                   id="name"
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="First Last"
                   value={form.name}
                   onChange={(e) => updateForm({ name: e.target.value })}
                 />
               </div>
             </div>
-
-            {/* Position Dropdown */}
-            <div className="sm:col-span-4">
+  
+            {/* Position */}
+            <div className="col-span-1">
               <label htmlFor="position" className="block text-sm font-medium leading-6 text-slate-900">Position</label>
               <select
                 name="position"
                 id="position"
-                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                 value={form.position}
                 onChange={(e) => updateForm({ position: e.target.value })}
               >
@@ -104,15 +105,15 @@ export default function Record() {
                 <option value="Agent">Agent</option>
               </select>
             </div>
-
-            {/* Region Dropdown */}
-            <div className="sm:col-span-4">
+  
+            {/* Region */}
+            <div className="col-span-1">
               <label htmlFor="region" className="block text-sm font-medium leading-6 text-slate-900">Region</label>
               <div className="mt-2">
                 <select
                   name="region"
                   id="region"
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   value={form.region}
                   onChange={(e) => updateForm({ region: e.target.value })}
                 >
@@ -124,48 +125,48 @@ export default function Record() {
                 </select>
               </div>
             </div>
-
-            {/* Rating Input */}
-            <div className="sm:col-span-4">
+  
+            {/* Rating */}
+            <div className="col-span-1">
               <label htmlFor="rating" className="block text-sm font-medium leading-6 text-slate-900">Rating</label>
               <div className="mt-2">
                 <input
                   type="number"
                   name="rating"
                   id="rating"
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter rating"
                   value={form.rating}
                   onChange={(e) => updateForm({ rating: e.target.value })}
                 />
               </div>
             </div>
-
-            {/* Fees Input */}
-            <div className="sm:col-span-4">
+  
+            {/* Fees (USD) */}
+            <div className="col-span-1">
               <label htmlFor="fees" className="block text-sm font-medium leading-6 text-slate-900">Fees (USD)</label>
               <div className="mt-2">
                 <input
                   type="number"
                   name="fees"
                   id="fees"
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter fees"
                   value={form.fees}
                   onChange={(e) => updateForm({ fees: e.target.value })}
                 />
               </div>
             </div>
-
-            {/* Sales Input */}
-            <div className="sm:col-span-4">
+  
+            {/* Sales (USD) */}
+            <div className="col-span-1">
               <label htmlFor="sales" className="block text-sm font-medium leading-6 text-slate-900">Sales (USD)</label>
               <div className="mt-2">
                 <input
                   type="number"
                   name="sales"
                   id="sales"
-                  className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter sales"
                   value={form.sales}
                   onChange={(e) => updateForm({ sales: e.target.value })}
@@ -181,5 +182,5 @@ export default function Record() {
         />
       </form>
     </>
-  );
+  );  
 }
