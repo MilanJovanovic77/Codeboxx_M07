@@ -40,18 +40,3 @@
 .read-the-docs {
   color: #888;
 }
-
-.button-custom {
-  background-color: rgba(11, 100, 160, 1);
-  color: white; /* Change text color if needed */
-  border: none; /* Optional: remove border */
-  padding: 0.5rem 1rem; /* Adjust padding */
-  border-radius: 0.25rem; /* Adjust border radius */
-  cursor: pointer; /* Change cursor on hover */
-  text-decoration: none; /* Remove underline for NavLink */
-  transition: background-color 0.3s; /* Smooth background color transition */
-}
-
-.button-custom:hover {
-  background-color: rgba(11, 80, 140, 1); /* Optional: lighter shade on hover */
-}
