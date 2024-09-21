@@ -99,6 +99,41 @@ Currently, two official plugins are available:
 # ---------------------------------------------------------------------------------------------------
 
 # Arborescence
+
+server/
+├── db/
+│   ├── connection.js           // MongoDB connection script
+│   └── routes/
+│       └── record.js           // Existing records API
+├── .env                         // Environment variables
+├── config.env                   // Additional configuration (if needed)
+└── server.js                    // Main server file
+
+client/
+├── node_modules/               // Installed dependencies
+├── public/
+│   └── vite.svg                // Vite logo or any static assets
+├── src/
+│   ├── assets/                 // Images, fonts, and other static assets
+│   │   ├── images/             // Images specific to your application
+│   │   └── react.svg           // Example asset
+│   ├── components/             // Reusable components (buttons, inputs, etc.)
+│   │   ├── Navbar.jsx          // Navigation bar component
+│   │   ├── Record.jsx          // Component for individual record
+│   │   └── RecordList.jsx      // Component for displaying a list of records
+│   ├── App.css                 // Main CSS file for styling
+│   ├── App.jsx                 // Main application component
+│   ├── Index.css               // Additional styles, if needed
+│   └── main.jsx                // Entry point of the React application
+├── eslint.config.js            // ESLint configuration file
+├── index.html                  // Main HTML file
+├── postcss.config.js           // PostCSS configuration
+├── package.json                // Project dependencies and scripts
+├── package-lock.json           // Exact versions of installed dependencies
+├── vite.config.js              // Vite configuration
+└── tailwind.config.js          // Tailwind CSS configuration
+
+
 server/
 ├── db/
 │   ├── connection.js           // MongoDB connection script
