@@ -4,22 +4,22 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// This section will help you get a list of all the records.
+// This section will help you get a list of all the agents.
 router.get("/", async (req, res) => {
   try {
-    let collection = await db.collection("records");
+    let collection = await db.collection("agents"); // Use the 'agents' collection
     let results = await collection.find({}).toArray();
     res.status(200).send(results);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error retrieving records");
+    res.status(500).send("Error retrieving agents");
   }
 });
 
-// This section will help you get a single record by id
+// This section will help you get a single agent by id
 router.get("/:id", async (req, res) => {
   try {
-    let collection = await db.collection("records");
+    let collection = await db.collection("agents"); // Use the 'agents' collection
     let query = { _id: new ObjectId(req.params.id) };
     let result = await collection.findOne(query);
 
@@ -30,75 +30,79 @@ router.get("/:id", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error retrieving record");
+    res.status(500).send("Error retrieving agent");
   }
 });
 
-// This section will help you create a new record.
+// This section will help you create a new agent.
 router.post("/", async (req, res) => {
   try {
     let newDocument = {
-      name: req.body.name,
-      position: req.body.position, // Manager, Top Agent, Agent
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
       region: req.body.region, // North, East, West, South
       rating: req.body.rating, // Numeric rating
-      fees: req.body.fees, // Fees in USD
+      fee: req.body.fee, // Fee in USD
+      position: req.body.position, // Manager, Top Agent, Agent
       sales: req.body.sales, // Sales in USD
     };
     
-    let collection = await db.collection("records");
+    let collection = await db.collection("agents"); // Use the 'agents' collection
     let result = await collection.insertOne(newDocument);
     res.status(201).send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error adding record");
+    res.status(500).send("Error adding agent");
   }
 });
 
-// This section will help you update a record by id.
+// This section will help you update an agent by id.
 router.patch("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
-        name: req.body.name,
-        position: req.body.position, // Manager, Top Agent, Agent
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
         region: req.body.region, // North, East, West, South
         rating: req.body.rating, // Numeric rating
-        fees: req.body.fees, // Fees in USD
+        fee: req.body.fee, // Fee in USD
+        position: req.body.position, // Manager, Top Agent, Agent
         sales: req.body.sales, // Sales in USD
       },
     };
 
-    let collection = await db.collection("records");
+    let collection = await db.collection("agents"); // Use the 'agents' collection
     let result = await collection.updateOne(query, updates);
     
     if (result.modifiedCount === 0) {
-      res.status(404).send("Record not found");
+      res.status(404).send("Agent not found");
     } else {
       res.status(200).send(result);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error updating record");
+    res.status(500).send("Error updating agent");
   }
 });
 
-// This section will help you delete a record
+// This section will help you delete an agent
 router.delete("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
-    const collection = db.collection("records");
+    const collection = db.collection("agents"); // Use the 'agents' collection
     let result = await collection.deleteOne(query);
 
     if (result.deletedCount === 0) {
-      res.status(404).send("Record not found");
+      res.status(404).send("Agent not found");
     } else {
-      res.status(200).send("Record deleted");
+      res.status(200).send("Agent deleted");
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error deleting record");
+    res.status(500).send("Error deleting agent");
   }
 });
 
