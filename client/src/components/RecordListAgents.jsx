@@ -1,8 +1,5 @@
 
-
 import React, { useEffect, useState } from 'react';
-
-
 const RecordListAgents = () => {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +8,7 @@ const RecordListAgents = () => {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const response = await fetch('http://localhost:3004/api/agents'); // Adjust the endpoint as needed
+        const response = await fetch(`http://localhost:5050/agents/`); // Corrected endpoint
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -66,4 +63,3 @@ const RecordListAgents = () => {
 };
 
 export default RecordListAgents;
-

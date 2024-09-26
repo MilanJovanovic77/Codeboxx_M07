@@ -7,11 +7,11 @@ const router = express.Router();
 // This section will help you get a list of all the agents.
 router.get("/", async (req, res) => {
   try {
-    let collection = await db.collection("agents"); // Use the 'agents' collection
-    let results = await collection.find({}).toArray();
+    const collection = db.collection("agents"); // Use the 'agents' collection
+    const results = await collection.find({}).toArray();
     res.status(200).send(results);
   } catch (err) {
-    console.error(err);
+    console.error("Error retrieving agents:", err);
     res.status(500).send("Error retrieving agents");
   }
 });
@@ -19,17 +19,17 @@ router.get("/", async (req, res) => {
 // This section will help you get a single agent by id
 router.get("/:id", async (req, res) => {
   try {
-    let collection = await db.collection("agents"); // Use the 'agents' collection
-    let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
+    const collection = db.collection("agents"); // Use the 'agents' collection
+    const query = { _id: new ObjectId(req.params.id) };
+    const result = await collection.findOne(query);
 
     if (!result) {
-      res.status(404).send("Not found");
+      res.status(404).send("Agent not found");
     } else {
       res.status(200).send(result);
     }
   } catch (err) {
-    console.error(err);
+    console.error("Error retrieving agent:", err);
     res.status(500).send("Error retrieving agent");
   }
 });
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res) => {
 // This section will help you create a new agent.
 router.post("/", async (req, res) => {
   try {
-    let newDocument = {
+    const newDocument = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
@@ -48,11 +48,11 @@ router.post("/", async (req, res) => {
       sales: req.body.sales, // Sales in USD
     };
     
-    let collection = await db.collection("agents"); // Use the 'agents' collection
-    let result = await collection.insertOne(newDocument);
+    const collection = db.collection("agents"); // Use the 'agents' collection
+    const result = await collection.insertOne(newDocument);
     res.status(201).send(result);
   } catch (err) {
-    console.error(err);
+    console.error("Error adding agent:", err);
     res.status(500).send("Error adding agent");
   }
 });
@@ -74,8 +74,8 @@ router.patch("/:id", async (req, res) => {
       },
     };
 
-    let collection = await db.collection("agents"); // Use the 'agents' collection
-    let result = await collection.updateOne(query, updates);
+    const collection = db.collection("agents"); // Use the 'agents' collection
+    const result = await collection.updateOne(query, updates);
     
     if (result.modifiedCount === 0) {
       res.status(404).send("Agent not found");
@@ -83,7 +83,7 @@ router.patch("/:id", async (req, res) => {
       res.status(200).send(result);
     }
   } catch (err) {
-    console.error(err);
+    console.error("Error updating agent:", err);
     res.status(500).send("Error updating agent");
   }
 });
@@ -93,7 +93,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = db.collection("agents"); // Use the 'agents' collection
-    let result = await collection.deleteOne(query);
+    const result = await collection.deleteOne(query);
 
     if (result.deletedCount === 0) {
       res.status(404).send("Agent not found");
@@ -101,7 +101,7 @@ router.delete("/:id", async (req, res) => {
       res.status(200).send("Agent deleted");
     }
   } catch (err) {
-    console.error(err);
+    console.error("Error deleting agent:", err);
     res.status(500).send("Error deleting agent");
   }
 });

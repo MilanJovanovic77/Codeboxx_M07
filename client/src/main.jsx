@@ -7,6 +7,9 @@ import {
 import App from "./App";
 import Record from "./components/Record";
 import RecordList from "./components/RecordList";
+import RecordAgents from "./components/RecordAgents"; // Import RecordAgents
+import RecordListAgents from "./components/RecordListAgents"; // Import RecordListAgents
+import NavbarAgents from "./components/NavbarAgents"; // Import NavbarAgents
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -37,6 +40,16 @@ const router = createBrowserRouter([
       {
         path: "/create",
         element: <Record />,
+      },
+    ],
+  },
+  {
+    path: "/agents", // Add the route for agents
+    element: <App />,
+    children: [
+      {
+        path: "/agents",
+        element: <RecordListAgents />, // Set RecordListAgents to be displayed
       },
     ],
   },

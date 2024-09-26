@@ -1,52 +1,77 @@
 
-import React, { useEffect, useState } from 'react';
-import NavbarAgents from './scr/components/NavbarAgents';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const RecordAgents = () => {
-  const [agents, setAgents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function RecordAgents() {
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    region: "",
+    rating: "",
+    fees: "",
+    sales: "",
+  });
+  const params = useParams(); // useParams gets URL parameters
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAgents = async () => {
+    async function fetchData() {
+      // If there's no ID in the params, do nothing
+      const id = params.id?.toString() || undefined;
+      if (!id) return;
+
       try {
-        const response = await fetch('http://localhost:3004/api/agents'); 
+        // Fetch the agent information by ID
+        const response = await fetch(`http://localhost:5050/agents/${id}`);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`An error has occurred: ${response.statusText}`);
         }
-        const data = await response.json();
-        setAgents(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        const record = await response.json();
+        if (!record) {
+          console.warn(`Agent with id ${id} not found`);
+          navigate("/agents");
+          return;
+        }
+        setForm(record);
+      } catch (error) {
+        console.error("Error fetching agent:", error);
       }
-    };
+    }
 
-    fetchAgents();
-  }, []);
+    fetchData();
+  }, [params.id, navigate]);
 
-  if (loading) return <p>Loading agents...</p>;
-  if (error) return <p>Error: {error}</p>;
+  function updateForm(value) {
+    setForm((prev) => ({ ...prev, ...value }));
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    const agent = { ...form };
+    try {
+      const response = await fetch(`http://localhost:5050/agents${params.id ? "/" + params.id : ""}`, {
+        method: `${params.id ? "PATCH" : "POST"}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(agent),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('A problem occurred with your fetch operation: ', error);
+    } finally {
+      setForm({ first_name: "", last_name: "", region: "", rating: "", fees: "", sales: "" });
+      navigate("/agents");
+    }
+  }
 
   return (
-    <div>
-      <h2>Agents List</h2>
-      {agents.length > 0 ? (
-        agents.map(agent => (
-          <div key={agent._id} className="agent-record">
-            <h3>{agent.first_name} {agent.last_name}</h3>
-            <p>Email: {agent.email}</p>
-            <p>Region: {agent.region}</p>
-            <p>Rating: {agent.rating}</p>
-            <p>Fee: ${agent.fee.toFixed(2)}</p>
-          </div>
-        ))
-      ) : (
-        <p>No agents found.</p>
-      )}
-    </div>
+    <>
+      <h3 className="text-lg font-semibold p-4">Create/Update Agent Record</h3>
+      {/* Similar form structure as in Record.jsx */}
+    </>
   );
-};
-
-export default RecordAgents;
+}
