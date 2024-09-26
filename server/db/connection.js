@@ -18,7 +18,7 @@ async function connectToDB() {
     await client.connect();
     // Ping the database to check the connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log("Successfully connected to MongoDB!");
 
     // Set the database reference to the 'employees' database
     db = client.db("employees");
@@ -27,11 +27,16 @@ async function connectToDB() {
   }
 }
 
-// Call the function to establish the connection when the server starts
+// Call the function to establish the connection
 connectToDB();
 
-// Export the database reference to use it in other files
-export default db;
+// Export a function to get the database instance
+export function getDb() {
+  if (!db) {
+    throw new Error("Database not initialized");
+  }
+  return db;
+}
 
 /*
 import { MongoClient, ServerApiVersion } from "mongodb";
