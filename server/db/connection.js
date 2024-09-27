@@ -37,6 +37,8 @@ export function getDb() {
   }
   return db;
 }
+export default db;
+
 
 /*
 import { MongoClient, ServerApiVersion } from "mongodb";
