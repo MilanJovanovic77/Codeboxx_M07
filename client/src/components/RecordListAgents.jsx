@@ -1,65 +1,133 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import React, { useEffect, useState } from 'react';
-const RecordListAgents = () => {
-  const [agents, setAgents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Record = (props) => (
+  <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.first_name}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.last_name}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+    {props.record.position} 
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.region} {/* New field  */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.rating} {/* New field */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.fee} {/* New field */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      {props.record.sales} {/* Changed from level to sales */}
+    </td>
+    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+      <div className="flex gap-2">
+        <Link
+          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 h-9 rounded-md px-3"
+          to={`/edit/${props.record._id}`}
+        >
+          Edit
+        </Link>
+        <button
+          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 hover:text-accent-foreground h-9 rounded-md px-3"
+          color="red"
+          type="button"
+          onClick={() => {
+            props.deleteRecord(props.record._id);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    </td>
+  </tr>
+);
 
+export default function RecordList() {
+  const [records, setRecords] = useState([]);
+
+  // Fetch the records from the database
   useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        const response = await fetch(`http://localhost:5050/agents/`); // Corrected endpoint
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setAgents(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    async function getRecords() {
+      const response = await fetch(`http://localhost:5050/agents/`);
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
       }
-    };
-
-    fetchAgents();
+      const records = await response.json();
+      setRecords(records);
+    }
+    getRecords();
   }, []);
 
-  if (loading) return <p>Loading agents...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // Delete a record
+  async function deleteRecord(id) {
+    await fetch(`http://localhost:5050/agents/${id}`, {
+      method: "DELETE",
+    });
+    const newRecords = records.filter((el) => el._id !== id);
+    setRecords(newRecords);
+  }
 
+  // Map out the records for the table
+  function recordList() {
+    return records.map((record) => {
+      return (
+        <Record
+          record={record}
+          deleteRecord={() => deleteRecord(record._id)}
+          key={record._id}
+        />
+      );
+    });
+  }
+
+  // Display the table with the records of agents
   return (
-    <div>
-      <h2>Agents List</h2>
-      {agents.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Region</th>
-              <th>Rating</th>
-              <th>Fee</th>
-            </tr>
-          </thead>
-          <tbody>
-            {agents.map(agent => (
-              <tr key={agent._id}>
-                <td>{agent.first_name}</td>
-                <td>{agent.last_name}</td>
-                <td>{agent.email}</td>
-                <td>{agent.region}</td>
-                <td>{agent.rating}</td>
-                <td>${agent.fee.toFixed(2)}</td>
+    <>
+      <h3 className="text-lg font-semibold p-4">Agents List</h3> {/* Updated title */}
+      <div className="border rounded-lg overflow-hidden">
+        <div className="relative w-full overflow-auto">
+          <table className="w-full caption-bottom text-sm">
+            <thead className="[&_tr]:border-b">
+              <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  First Name
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Last Name
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Position 
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Region {/* New column */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Rating {/* New column */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Fees (USD) {/* New column */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Sales (USD) {/* Changed from Level to Sales */}
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No agents found.</p>
-      )}
-    </div>
+            </thead>
+            <tbody className="[&_tr:last-child]:border-0">
+              {recordList()}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   );
-};
-
-export default RecordListAgents;
+}

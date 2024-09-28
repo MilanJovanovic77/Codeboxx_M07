@@ -1,25 +1,27 @@
 import express from "express";
-import db from "../db/connection.js"; // This connects to the 'employees' database
+import { getDb } from "../db/connection.js"; // Use the new getDb function
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// This section will help you get a list of all the agents.
+// Get a list of all the records
 router.get("/", async (req, res) => {
   try {
-    const collection = db.collection("agents"); // Use the 'agents' collection
+    const db = getDb();
+    const collection = db.collection("agents");
     const results = await collection.find({}).toArray();
     res.status(200).send(results);
   } catch (err) {
-    console.error("Error retrieving agents:", err);
+    console.error(err);
     res.status(500).send("Error retrieving agents");
   }
 });
 
-// This section will help you get a single agent by id
+// Get a single record by id
 router.get("/:id", async (req, res) => {
   try {
-    const collection = db.collection("agents"); // Use the 'agents' collection
+    const db = getDb();
+    const collection = db.collection("agents");
     const query = { _id: new ObjectId(req.params.id) };
     const result = await collection.findOne(query);
 
@@ -29,37 +31,37 @@ router.get("/:id", async (req, res) => {
       res.status(200).send(result);
     }
   } catch (err) {
-    console.error("Error retrieving agent:", err);
+    console.error(err);
     res.status(500).send("Error retrieving agent");
   }
 });
 
-// This section will help you create a new agent.
+// Create a new record
 router.post("/", async (req, res) => {
   try {
+    const db = getDb();
     const newDocument = {
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      region: req.body.region, // North, East, West, South
-      rating: req.body.rating, // Numeric rating
-      fee: req.body.fee, // Fee in USD
-      position: req.body.position, // Manager, Top Agent, Agent
-      sales: req.body.sales, // Sales in USD
+      name: req.body.name,
+      position: req.body.position,
+      region: req.body.region,
+      rating: req.body.rating,
+      fees: req.body.fees,
+      sales: req.body.sales,
     };
-    
-    const collection = db.collection("agents"); // Use the 'agents' collection
+
+    const collection = db.collection("agents");
     const result = await collection.insertOne(newDocument);
     res.status(201).send(result);
   } catch (err) {
-    console.error("Error adding agent:", err);
+    console.error(err);
     res.status(500).send("Error adding agent");
   }
 });
 
-// This section will help you update an agent by id.
+// Update a record by id
 router.patch("/:id", async (req, res) => {
   try {
+    const db = getDb();
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
@@ -74,25 +76,26 @@ router.patch("/:id", async (req, res) => {
       },
     };
 
-    const collection = db.collection("agents"); // Use the 'agents' collection
+    const collection = db.collection("agents");
     const result = await collection.updateOne(query, updates);
-    
+
     if (result.modifiedCount === 0) {
       res.status(404).send("Agent not found");
     } else {
       res.status(200).send(result);
     }
   } catch (err) {
-    console.error("Error updating agent:", err);
-    res.status(500).send("Error updating agent");
+    console.error(err);
+    res.status(500).send("Error updating Agent");
   }
 });
 
-// This section will help you delete an agent
+// Delete a record
 router.delete("/:id", async (req, res) => {
   try {
+    const db = getDb();
     const query = { _id: new ObjectId(req.params.id) };
-    const collection = db.collection("agents"); // Use the 'agents' collection
+    const collection = db.collection("agents");
     const result = await collection.deleteOne(query);
 
     if (result.deletedCount === 0) {
@@ -101,7 +104,7 @@ router.delete("/:id", async (req, res) => {
       res.status(200).send("Agent deleted");
     }
   } catch (err) {
-    console.error("Error deleting agent:", err);
+    console.error(err);
     res.status(500).send("Error deleting agent");
   }
 });
