@@ -43,7 +43,7 @@ export default function Record() {
     e.preventDefault();
     const person = { ...form };
     try {
-      const response = await fetch(`http://localhost:5050/agents${params.id ? "/" + params.id : ""}`, {
+      const response = await fetch(`http://localhost:5050/agents/${params.id}`, {
         method: `${params.id ? "PATCH" : "POST"}`,
         headers: {
           "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export default function Record() {
             </div>
           </div>
 
-          {/* Fourth Row - Rating, Fees, and Sales */}
+          {/* Fourth Row - Rating, Fee, and Sales */}
           <div className="grid grid-cols-3 gap-x-6">
             <div>
               <label htmlFor="rating" className="block text-sm font-medium leading-6 text-slate-900">Rating</label>
@@ -168,7 +168,7 @@ export default function Record() {
               </div>
             </div>
             <div>
-              <label htmlFor="fees" className="block text-sm font-medium leading-6 text-slate-900">Fees (USD)</label>
+              <label htmlFor="fee" className="block text-sm font-medium leading-6 text-slate-900">Fees (USD)</label>
               <div className="mt-2">
                 <input
                   type="number"
@@ -177,7 +177,7 @@ export default function Record() {
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter fee"
                   value={form.fee}
-                  onChange={(e) => updateForm({ fees: e.target.value })}
+                  onChange={(e) => updateForm({ fee: e.target.value })}
                 />
               </div>
             </div>

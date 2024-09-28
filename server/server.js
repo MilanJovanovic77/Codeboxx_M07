@@ -13,7 +13,7 @@ app.use(express.json());
 app.use("/record", records);
 
 // Route for "agents"
-app.use("/agents", recordAgents); // Set the agents route under /api/agents
+app.use("/agents", recordAgents); // Set the agents route under /agents
 
 // Start the Express server
 app.listen(PORT, () => {
