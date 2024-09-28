@@ -17,7 +17,7 @@ export default function Record() {
     async function fetchData() {
       const id = params.id?.toString() || undefined;
       if (!id) return;
-      const response = await fetch(`http://localhost:5050/record/${params.id.toString()}`);
+      const response = await fetch(`http://localhost:5050/record/${params.id}`);
       if (!response.ok) {
         console.error(`An error has occurred: ${response.statusText}`);
         return;
