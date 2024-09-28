@@ -95,7 +95,7 @@ export default function RecordAgents() {
                   id="first_name"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="First Name"
-                  value={form.first_name}
+                  value={form.first_name || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ first_name: e.target.value })}
                 />
               </div>
@@ -109,7 +109,7 @@ export default function RecordAgents() {
                   id="last_name"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Last Name"
-                  value={form.last_name}
+                  value={form.last_name || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ last_name: e.target.value })}
                 />
               </div>
@@ -127,7 +127,7 @@ export default function RecordAgents() {
                   id="position"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Manager, Top Agent, Agent"
-                  value={form.position}
+                  value={form.position || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ position: e.target.value })}
                 />
               </div>
@@ -141,7 +141,7 @@ export default function RecordAgents() {
                   id="region"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="North, East, West, South"
-                  value={form.region}
+                  value={form.region || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ region: e.target.value })}
                 />
               </div>
@@ -159,7 +159,7 @@ export default function RecordAgents() {
                   id="rating"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter rating"
-                  value={form.rating}
+                  value={form.rating || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ rating: e.target.value })}
                 />
               </div>
@@ -173,7 +173,7 @@ export default function RecordAgents() {
                   id="fee"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter fee"
-                  value={form.fee}
+                  value={form.fee || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ fee: e.target.value })}
                 />
               </div>
@@ -187,7 +187,7 @@ export default function RecordAgents() {
                   id="sales"
                   className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Enter sales"
-                  value={form.sales}
+                  value={form.sales || ""} // Ensure default empty string
                   onChange={(e) => updateForm({ sales: e.target.value })}
                 />
               </div>
@@ -197,7 +197,7 @@ export default function RecordAgents() {
 
         <input
           type="submit"
-          value="Save Agents Information" // Changed button text
+          value="Save Agents Information"
           className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 hover:text-accent-foreground h-9 rounded-md px-3 cursor-pointer mt-4"
         />
       </form>

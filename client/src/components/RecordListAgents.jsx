@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Record = (props) => (
   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
@@ -49,6 +49,7 @@ const Record = (props) => (
 );
 
 export default function RecordListAgents() {
+  const location = useLocation();
   const [records, setRecords] = useState([]);
 
   // Fetch the records from the database
@@ -64,7 +65,7 @@ export default function RecordListAgents() {
       setRecords(records);
     }
     getRecords();
-  }, []);
+  }, [location]);
 
   // Delete a record
   async function deleteRecord(id) {
@@ -113,7 +114,7 @@ export default function RecordListAgents() {
                   Rating {/* New column */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
-                  Fees (USD) {/* New column */}
+                  Fee (USD) {/* New column */}
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
                   Sales (USD) {/* Changed from Level to Sales */}
