@@ -10,12 +10,21 @@ router.get("/", async (req, res) => {
     const db = getDb();
     const collection = db.collection("agents");
     const results = await collection.find({}).toArray();
-    res.status(200).send(results);
+
+    // Format the fee and sales as USD before sending to frontend
+    const formattedResults = results.map(agent => ({
+      ...agent,
+      fee: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.fee),
+      sales: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.sales),
+    }));
+
+    res.status(200).send(formattedResults);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving agents");
   }
 });
+
 
 // Get a single record by id
 router.get("/:id", async (req, res) => {
