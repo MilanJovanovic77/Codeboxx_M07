@@ -119,35 +119,47 @@ export default function RecordAgents() {
           {/* Third Row - Position and Region */}
           <div className="grid grid-cols-2 gap-x-6">
             <div>
-              <label htmlFor="position" className="block text-sm font-medium leading-6 text-slate-900">Position</label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="position"
-                  id="position"
-                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder="Manager, Top Agent, Agent"
-                  value={form.position || ""} // Ensure default empty string
-                  onChange={(e) => updateForm({ position: e.target.value })}
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="region" className="block text-sm font-medium leading-6 text-slate-900">Region</label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="region"
-                  id="region"
-                  className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder="North, East, West, South"
-                  value={form.region || ""} // Ensure default empty string
-                  onChange={(e) => updateForm({ region: e.target.value })}
-                />
-              </div>
+              <label htmlFor="position" className="block text-sm font-medium leading-6 text-slate-900">
+              Position
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="position"
+                id="position"
+                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                placeholder="Enter Position"
+                value={form.position || ""}
+                onChange={(e) => updateForm({ position: e.target.value })}
+              />
+              {/* Display available options in light gray */}
+              <p className="text-xs text-gray-500 mt-1">
+                Available positions: Manager, Top Agent, Agent
+              </p>
             </div>
           </div>
+          <div>
+            <label htmlFor="region" className="block text-sm font-medium leading-6 text-slate-900">
+              Region
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="region"
+                id="region"
+                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
+                placeholder="Enter Region"
+                value={form.region || ""}
+                onChange={(e) => updateForm({ region: e.target.value })}
+              />
+              {/* Display available options in light gray */}
+              <p className="text-xs text-gray-500 mt-1">
+                Available regions: North, East, West, South
+              </p>
+            </div>
+          </div>  
 
+        </div>
           {/* Fourth Row - Rating, Fee, and Sales */}
           <div className="grid grid-cols-3 gap-x-6">
             <div>
