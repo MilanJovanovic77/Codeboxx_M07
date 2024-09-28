@@ -48,7 +48,7 @@ const Record = (props) => (
   </tr>
 );
 
-export default function RecordList() {
+export default function RecordListAgents() {
   const [records, setRecords] = useState([]);
 
   // Fetch the records from the database

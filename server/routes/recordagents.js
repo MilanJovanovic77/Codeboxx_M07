@@ -41,11 +41,13 @@ router.post("/", async (req, res) => {
   try {
     const db = getDb();
     const newDocument = {
-      name: req.body.name,
+      first_name: req.body.name,
+      last_name: req.body.last_name,
+      email: req.body.email,
       position: req.body.position,
       region: req.body.region,
       rating: req.body.rating,
-      fees: req.body.fees,
+      fee: req.body.fee,
       sales: req.body.sales,
     };
 
@@ -61,6 +63,11 @@ router.post("/", async (req, res) => {
 // Update a record by id
 router.patch("/:id", async (req, res) => {
   try {
+    // Validate if the id is a valid ObjectId
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).send("Invalid Agent ID");
+    }
+
     const db = getDb();
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
@@ -68,25 +75,24 @@ router.patch("/:id", async (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
-        region: req.body.region, // North, East, West, South
-        rating: req.body.rating, // Numeric rating
-        fee: req.body.fee, // Fee in USD
-        position: req.body.position, // Manager, Top Agent, Agent
-        sales: req.body.sales, // Sales in USD
+        region: req.body.region,
+        rating: req.body.rating,
+        fee: req.body.fee,
+        position: req.body.position,
+        sales: req.body.sales,
       },
     };
 
-    const collection = db.collection("agents");
-    const result = await collection.updateOne(query, updates);
+    const result = await db.collection("agents").updateOne(query, updates);
 
-    if (result.modifiedCount === 0) {
-      res.status(404).send("Agent not found");
-    } else {
-      res.status(200).send(result);
+    if (result.matchedCount === 0) {
+      return res.status(404).send("Agent not found");
     }
+
+    res.status(200).send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error updating Agent");
+    res.status(500).send("Error updating agent");
   }
 });
 

@@ -27,7 +27,7 @@ export default function RecordAgents() {
       const record = await response.json();
       if (!record) {
         console.warn(`Agent with id ${id} not found`);
-        navigate("/");
+        navigate("/agents");
         return;
       }
       setForm(record);
@@ -67,13 +67,13 @@ export default function RecordAgents() {
         position: "",
         sales: "",
       });
-      navigate("/");
+      navigate("/agents"); // Changed from "/" to "/agents"
     }
   }
 
   return (
     <>
-      <h3 className="text-lg font-semibold p-4">Create/Update Agents Record</h3>
+      <h3 className="text-lg font-semibold p-4">Create/Update Agents Information</h3>
       <form onSubmit={onSubmit} className="border rounded-lg overflow-hidden p-4">
         <div className="grid gap-y-6">
           {/* First Row - Agents Info */}
@@ -116,7 +116,7 @@ export default function RecordAgents() {
             </div>
           </div>
 
-          {/* Third Row - Position and Region (Updated) */}
+          {/* Third Row - Position and Region */}
           <div className="grid grid-cols-2 gap-x-6">
             <div>
               <label htmlFor="position" className="block text-sm font-medium leading-6 text-slate-900">Position</label>
@@ -197,7 +197,7 @@ export default function RecordAgents() {
 
         <input
           type="submit"
-          value="Save Agents Record"
+          value="Save Agents Information" // Changed button text
           className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-slate-100 hover:text-accent-foreground h-9 rounded-md px-3 cursor-pointer mt-4"
         />
       </form>
