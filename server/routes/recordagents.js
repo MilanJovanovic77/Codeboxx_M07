@@ -44,22 +44,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new record
+// Create a new agent
 router.post("/", async (req, res) => {
   try {
     const db = getDb();
     const newDocument = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      email: req.body.email,
+      email: req.body.email,  // Include email here
       position: req.body.position,
       region: req.body.region,
-      rating: parseFloat(req.body.rating) || 0, // Ensure rating is a number
-      fee: parseFloat(req.body.fee) || 0,       // Ensure fee is a number
-      sales: parseFloat(req.body.sales) || 0,   // Ensure sales is a number
+      rating: parseFloat(req.body.rating) || 0,  // Ensure rating is a number
+      fee: parseFloat(req.body.fee) || 0,  // Ensure fee is a number
+      sales: parseFloat(req.body.sales) || 0,  // Ensure sales is a number
     };
 
-    console.log("Creating new agent:", newDocument); // Log the new document
     const collection = db.collection("agents");
     const result = await collection.insertOne(newDocument);
     res.status(201).send(result);
@@ -69,26 +68,21 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update a record by id
+// Update agent by id
 router.patch("/:id", async (req, res) => {
   try {
-    // Validate if the id is a valid ObjectId
-    if (!ObjectId.isValid(req.params.id)) {
-      return res.status(400).send("Invalid Agent ID");
-    }
-
     const db = getDb();
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        email: req.body.email,
-        region: req.body.region,
-        rating: req.body.rating,
-        fee: req.body.fee,
+        email: req.body.email,  // Include email here
         position: req.body.position,
-        sales: req.body.sales,
+        region: req.body.region,
+        rating: parseFloat(req.body.rating) || 0,
+        fee: parseFloat(req.body.fee) || 0,
+        sales: parseFloat(req.body.sales) || 0,
       },
     };
 
