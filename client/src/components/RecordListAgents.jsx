@@ -59,18 +59,18 @@ export default function RecordListAgents() {
 
   // Fetch the records from the database
   useEffect(() => {
-    async function getRecords() {
-      const response = await fetch(`http://localhost:5050/agents/`);
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
-      }
-      const records = await response.json();
-      setRecords(records);
+  async function getRecords() {
+    const response = await fetch(`http://localhost:5050/agents/`);
+    if (!response.ok) {
+      const message = `An error occurred: ${response.statusText}`;
+      console.error(message);
+      return;
     }
-    getRecords();
-  }, [location]);  
+    const records = await response.json();
+    setRecords(records);
+  }
+  getRecords();
+  }, [location]);  // The location change will trigger re-fetching of data
 
   // Delete a record
   async function deleteRecord(id) {

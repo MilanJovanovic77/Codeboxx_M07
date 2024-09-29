@@ -48,9 +48,12 @@ export default function RecordAgents() {
       sales: parseFloat(form.sales) || 0, // Ensure sales is a number
     };
   
+    const method = params.id ? "PATCH" : "POST";  // Correctly determine method
+    const url = `http://localhost:5050/agents/${params.id || ""}`; // Use empty string for POST
+  
     try {
-      const response = await fetch(`http://localhost:5050/agents/${params.id}`, {
-        method: `${params.id ? "PATCH" : "POST"}`,
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -73,9 +76,9 @@ export default function RecordAgents() {
         position: "",
         sales: "",
       });
-      navigate("/agents");
+      navigate("/agents"); // Navigate to agents list after successful submission
     }
-  }  
+  }   
 
   return (
     <>

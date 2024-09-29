@@ -49,16 +49,17 @@ router.post("/", async (req, res) => {
   try {
     const db = getDb();
     const newDocument = {
-      first_name: req.body.name,
+      first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
       position: req.body.position,
       region: req.body.region,
-      rating: req.body.rating,
-      fee: req.body.fee,
-      sales: req.body.sales,
+      rating: parseFloat(req.body.rating) || 0, // Ensure rating is a number
+      fee: parseFloat(req.body.fee) || 0,       // Ensure fee is a number
+      sales: parseFloat(req.body.sales) || 0,   // Ensure sales is a number
     };
 
+    console.log("Creating new agent:", newDocument); // Log the new document
     const collection = db.collection("agents");
     const result = await collection.insertOne(newDocument);
     res.status(201).send(result);
