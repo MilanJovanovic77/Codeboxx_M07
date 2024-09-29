@@ -10,6 +10,7 @@ import RecordList from "./components/RecordList";
 import RecordAgents from "./components/RecordAgents"; // Import RecordAgents
 import RecordListAgents from "./components/RecordListAgents"; // Import RecordListAgents
 import "./index.css";
+import Login from "./components/Login"; // Import the login component
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         element: <Record />,
       },
     ],
+  },
+  {
+    path: "/agents/login",
+    element: <Login />,  // Add login route
   },
   {
     path: "/agents", // Add the route for agents
