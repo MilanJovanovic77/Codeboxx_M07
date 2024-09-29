@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const Record = (props) => (
+const Record = (props) => {
+  console.log("Fee:", props.record.fee);  // Log fee value
+  console.log("Sales:", props.record.sales);  // Log sales value
+
+  return (
   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {props.record.first_name}
@@ -20,11 +24,11 @@ const Record = (props) => (
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {/* Format fee to USD */}
-      {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.record.fee)}
+      {props.record.fee}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {/* Format sales to USD */}
-      {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.record.sales)}
+      {props.record.sales}
     </td>
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       <div className="flex gap-2">
@@ -47,7 +51,7 @@ const Record = (props) => (
       </div>
     </td>
   </tr>
-);
+)};
 
 export default function RecordListAgents() {
   const location = useLocation();
@@ -66,7 +70,7 @@ export default function RecordListAgents() {
       setRecords(records);
     }
     getRecords();
-  }, [location]);
+  }, [location]);  
 
   // Delete a record
   async function deleteRecord(id) {

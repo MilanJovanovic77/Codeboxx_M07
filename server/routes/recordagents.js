@@ -11,11 +11,10 @@ router.get("/", async (req, res) => {
     const collection = db.collection("agents");
     const results = await collection.find({}).toArray();
 
-    // Format the fee and sales as USD before sending to frontend
     const formattedResults = results.map(agent => ({
       ...agent,
-      fee: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.fee),
-      sales: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.sales),
+      fee: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.fee || 0),
+      sales: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(agent.sales || 0),
     }));
 
     res.status(200).send(formattedResults);

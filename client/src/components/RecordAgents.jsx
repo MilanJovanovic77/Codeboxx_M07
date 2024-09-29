@@ -41,7 +41,13 @@ export default function RecordAgents() {
 
   async function onSubmit(e) {
     e.preventDefault();
-    const person = { ...form };
+  
+    const person = {
+      ...form,
+      fee: parseFloat(form.fee) || 0, // Ensure fee is a number
+      sales: parseFloat(form.sales) || 0, // Ensure sales is a number
+    };
+  
     try {
       const response = await fetch(`http://localhost:5050/agents/${params.id}`, {
         method: `${params.id ? "PATCH" : "POST"}`,
@@ -50,7 +56,7 @@ export default function RecordAgents() {
         },
         body: JSON.stringify(person),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -67,9 +73,9 @@ export default function RecordAgents() {
         position: "",
         sales: "",
       });
-      navigate("/agents"); // Changed from "/" to "/agents"
+      navigate("/agents");
     }
-  }
+  }  
 
   return (
     <>
