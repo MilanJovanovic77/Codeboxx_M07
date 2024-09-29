@@ -8,9 +8,9 @@ export default function RecordAgents() {
     email: "",
     region: "",
     rating: "",
-    fee: "",
+    fee: "", // Keep fee as a number input
     position: "",
-    sales: "",
+    sales: "", // Keep sales as a number input
   });
   const params = useParams();
   const navigate = useNavigate();
@@ -25,12 +25,7 @@ export default function RecordAgents() {
         return;
       }
       const record = await response.json();
-      if (!record) {
-        console.warn(`Agent with id ${id} not found`);
-        navigate("/agents");
-        return;
-      }
-      setForm(record);
+      setForm(record);  // Set form state with the raw numbers from DB
     }
     fetchData();
   }, [params.id, navigate]);
@@ -42,10 +37,11 @@ export default function RecordAgents() {
   async function onSubmit(e) {
     e.preventDefault();
 
+    // Prepare the form data for submission (strip formatting if necessary)
     const person = {
       ...form,
-      fee: parseFloat(form.fee) || 0, // Ensure fee is a number
-      sales: parseFloat(form.sales) || 0, // Ensure sales is a number
+      fee: parseFloat(form.fee) || 0,  // Convert fee input to a number
+      sales: parseFloat(form.sales) || 0,  // Convert sales input to a number
     };
 
     const method = params.id ? "PATCH" : "POST";
@@ -148,7 +144,7 @@ export default function RecordAgents() {
                 name="position"
                 id="position"
                 className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="manager, top agent or agent"
+                placeholder="Manager, Top Agent or Agent"
                 value={form.position || ""}
                 onChange={(e) => updateForm({ position: e.target.value })}
               />
@@ -163,7 +159,7 @@ export default function RecordAgents() {
                 name="region"
                 id="region"
                 className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder="north, east, west or south"
+                placeholder="North, East, West or South"
                 value={form.region || ""}
                 onChange={(e) => updateForm({ region: e.target.value })}
               />
@@ -192,7 +188,7 @@ export default function RecordAgents() {
             <label htmlFor="fee" className="block text-sm font-medium leading-6 text-slate-900">Fee (USD)</label>
             <div className="mt-2">
               <input
-                type="number"
+                type="number"  // Input type number to allow raw number entry
                 name="fee"
                 id="fee"
                 className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -207,7 +203,7 @@ export default function RecordAgents() {
             <label htmlFor="sales" className="block text-sm font-medium leading-6 text-slate-900">Sales (USD)</label>
             <div className="mt-2">
               <input
-                type="number"
+                type="number"  // Input type number to allow raw number entry
                 name="sales"
                 id="sales"
                 className="block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-400 focus:ring-0 sm:text-sm sm:leading-6"
