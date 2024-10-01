@@ -1,5 +1,4 @@
 import express from "express";
-import bcrypt from "bcryptjs"; // For password hashing
 import { getDb } from "../db/connection.js";
 
 const router = express.Router();
@@ -13,14 +12,15 @@ router.post("/login", async (req, res) => {
 
     // Find the user by email
     const user = await collection.findOne({ email });
+    console.log(user);
 
     if (!user) {
       // If user is not found
       return res.status(404).json({ error: "Access Denied" });
     }
 
-    // Compare the provided password with the hashed password in the database
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Compare the provided password with the one in the database (plain text comparison)
+    const isMatch = password === user.password;
 
     if (!isMatch) {
       // If password is incorrect
