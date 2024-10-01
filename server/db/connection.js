@@ -22,7 +22,7 @@ async function connectToDB() {
     console.log("Successfully connected to MongoDB!");
 
     // Set the database reference to the 'employees' database
-    db = client.db("employees");  // Make sure 'employees' is your correct database
+    db = client.db("employees");
   } catch (err) {
     console.error("Error connecting to the database:", err);
   }
@@ -38,4 +38,5 @@ export function getDb() {
   }
   return db;
 }
+
 export default db;

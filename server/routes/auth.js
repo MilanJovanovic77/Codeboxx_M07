@@ -10,28 +10,21 @@ router.post("/login", async (req, res) => {
     const db = getDb();
     const collection = db.collection("users");
 
-    // Find the user by email
+    // Check if the email exists in the database
     const user = await collection.findOne({ email });
-    console.log(user);
-
     if (!user) {
-      // If user is not found
-      return res.status(404).json({ error: "Access Denied" });
+      return res.status(404).json({ error: "Access Denied" });  // Email not found
     }
 
-    // Compare the provided password with the one in the database (plain text comparison)
-    const isMatch = password === user.password;
-
-    if (!isMatch) {
-      // If password is incorrect
-      return res.status(401).json({ error: "Wrong password, please try again." });
+    // Compare provided password with the stored password (no hashing, as requested)
+    if (password === user.password) {
+      return res.status(200).json({ message: "Login successful!" });  // Passwords match
+    } else {
+      return res.status(401).json({ error: "Wrong password, please try again." });  // Incorrect password
     }
-
-    // If the login is successful, send a success message
-    return res.status(200).json({ message: "Login successful!" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error" });  // Handle server errors
   }
 });
 
