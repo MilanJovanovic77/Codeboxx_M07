@@ -19,7 +19,7 @@ router.post("/login", async (req, res) => {
       return res.status(404).json({ error: "Access Denied" });
     }
 
-    // Compare the provided password with the hashed password in DB
+    // Compare the provided password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {

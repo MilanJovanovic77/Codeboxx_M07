@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import rocketLogo from "../assets/images/rocketElevators/rocketLogo.png";  // Import the logo
+import rocketLogo from "../assets/images/rocketElevators/rocketLogo.png"; // Import the logo
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);  // Control for password visibility
+  const [showPassword, setShowPassword] = useState(false); // Control for password visibility
   const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false);  // Control for showing the modal
+  const [showModal, setShowModal] = useState(false); // Control for showing the modal
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5050/auth/login", {
+      const response = await fetch("http://localhost:5050/agents/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      });          
+      });
 
       const data = await response.json();
 
@@ -29,27 +29,26 @@ export default function Login() {
       } else if (!response.ok) {
         setError(data.error);
       } else {
-        // If login is successful, redirect to /agents
-        navigate("/agents");
+        navigate("/agents"); // Successful login, redirect to /agents
       }
 
-      setShowModal(true);  // Show the modal with the error message
+      setShowModal(true); // Show the modal with the error message
     } catch (err) {
       console.error("Error logging in", err);
       setError("Server error");
-      setShowModal(true);  // Show the modal for the server error
+      setShowModal(true); // Show the modal for the server error
     }
   };
 
   // Function to close the modal and reset the error
   const handleCloseModal = () => {
-    setShowModal(false);  // Hide the modal
-    setError("");         // Clear the error message
+    setShowModal(false); // Hide the modal
+    setError(""); // Clear the error message
   };
 
   // Toggle the password visibility
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);  // Toggle password visibility
+    setShowPassword((prevState) => !prevState); // Toggle password visibility
   };
 
   return (
@@ -84,7 +83,7 @@ export default function Login() {
                 Password
               </label>
               <input
-                type={showPassword ? "text" : "password"}  // Toggle between text and password
+                type={showPassword ? "text" : "password"} // Toggle between text and password
                 id="password"
                 name="password"
                 className="mt-2 p-2 border w-full"
@@ -95,7 +94,7 @@ export default function Login() {
               {/* Eye Icon */}
               <span
                 className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
-                onClick={togglePasswordVisibility}  // Toggle password visibility on click
+                onClick={togglePasswordVisibility} // Toggle password visibility on click
               >
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,8 +103,7 @@ export default function Login() {
                   </svg>
                 ) : (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0012 19c-4.478 0-8.268-2.944-9.542-7a10.05 10.05 0 00.661-1.97m3.272-5.172A10.05 10.05 0 0112 5c4.478 0 8.268 2.943 9.542 7M12 19c4.478 0 8.268-2.943 9.542-7a10.05 10.05 0 00-1.125-1.925M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 12c1.045 0 1.97-.418 2.646-1.094M6.354 10.906A3.972 3.972 0 0112 12m0 0c-1.045 0-1.97-.418-2.646-1.094M12 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0012 19c-4.478 0-8.268-2.944-9.542-7a10.05 10.05 0 00.661-1.97m3.272-5.172A10.05 10.05 0 0112 5c4.478 0 8.268 2.943 9.542 7" />
                   </svg>
                 )}
               </span>
