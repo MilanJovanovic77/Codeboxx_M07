@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Wrong password, please try again." });
     }
 
-    // If the login is successful, you can send a success message or token (JWT)
+    // If the login is successful, send a success message
     return res.status(200).json({ message: "Login successful!" });
   } catch (err) {
     console.error(err);
