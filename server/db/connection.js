@@ -1,5 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+// Load environment variables
 const uri = process.env.ATLAS_URI || "";
 
 const client = new MongoClient(uri, {
@@ -21,7 +22,7 @@ async function connectToDB() {
     console.log("Successfully connected to MongoDB!");
 
     // Set the database reference to the 'employees' database
-    db = client.db("employees");
+    db = client.db("employees");  // Make sure 'employees' is your correct database
   } catch (err) {
     console.error("Error connecting to the database:", err);
   }

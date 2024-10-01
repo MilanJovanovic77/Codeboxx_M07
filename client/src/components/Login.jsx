@@ -5,6 +5,7 @@ import rocketLogo from "../assets/images/rocketElevators/rocketLogo.png";  // Im
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);  // Control for password visibility
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);  // Control for showing the modal
   const navigate = useNavigate();
@@ -13,11 +14,11 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5050/agents/login", {
+      const response = await fetch("http://localhost:5050/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      });     
+      });          
 
       const data = await response.json();
 
@@ -38,6 +39,17 @@ export default function Login() {
       setError("Server error");
       setShowModal(true);  // Show the modal for the server error
     }
+  };
+
+  // Function to close the modal and reset the error
+  const handleCloseModal = () => {
+    setShowModal(false);  // Hide the modal
+    setError("");         // Clear the error message
+  };
+
+  // Toggle the password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);  // Toggle password visibility
   };
 
   return (
@@ -67,12 +79,12 @@ export default function Login() {
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="password" className="block text-sm font-medium leading-6 text-slate-900">
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}  // Toggle between text and password
                 id="password"
                 name="password"
                 className="mt-2 p-2 border w-full"
@@ -80,6 +92,23 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {/* Eye Icon */}
+              <span
+                className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                onClick={togglePasswordVisibility}  // Toggle password visibility on click
+              >
+                {showPassword ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.304.964-.804 1.867-1.458 2.683M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0012 19c-4.478 0-8.268-2.944-9.542-7a10.05 10.05 0 00.661-1.97m3.272-5.172A10.05 10.05 0 0112 5c4.478 0 8.268 2.943 9.542 7M12 19c4.478 0 8.268-2.943 9.542-7a10.05 10.05 0 00-1.125-1.925M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 12c1.045 0 1.97-.418 2.646-1.094M6.354 10.906A3.972 3.972 0 0112 12m0 0c-1.045 0-1.97-.418-2.646-1.094M12 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                )}
+              </span>
             </div>
 
             <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
@@ -92,14 +121,15 @@ export default function Login() {
       {/* Modal for showing error */}
       {showModal && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="relative bg-white p-6 rounded-lg shadow-lg">
+            {/* Position the X button on the top-right of the modal content */}
             <button
-              className="absolute top-2 right-2 text-gray-500"
-              onClick={() => setShowModal(false)}
+              className="absolute top-1 right-1 text-gray-500 hover:text-gray-700"
+              onClick={handleCloseModal} // Use the handleCloseModal function
             >
               X
             </button>
-            <p className="text-red-500">{error}</p>
+            <p className="text-red-500 text-center">{error}</p> {/* Center the error text */}
           </div>
         </div>
       )}
