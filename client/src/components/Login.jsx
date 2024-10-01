@@ -20,25 +20,19 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      // Check if response is ok
-      if (!response.ok) {
-        const data = await response.json();
-        if (response.status === 404) {
-          // Email not found
-          setError("Access Denied");
-        } else if (response.status === 401) {
-          // Wrong password
-          setError("Wrong password, please try again.");
-        } else {
-          // Other errors
-          setError(data.error || "Something went wrong.");
-        }
-        setShowModal(true); // Show the modal with the error message
-        return;
+      const data = await response.json();
+
+      if (response.status === 404) {
+        setError("Access Denied: Agent not found");
+      } else if (response.status === 401) {
+        setError("Wrong password, please try again.");
+      } else if (!response.ok) {
+        setError(data.error);
+      } else {
+        navigate("/agents"); // Successful login, redirect to /agents
       }
 
-      // If login is successful, redirect to /agents
-      navigate("/agents");
+      setShowModal(true); // Show the modal with the error message
     } catch (err) {
       console.error("Error logging in", err);
       setError("Server error");
