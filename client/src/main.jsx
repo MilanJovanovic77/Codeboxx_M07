@@ -7,15 +7,15 @@ import {
 import App from "./App";
 import Record from "./components/Record";
 import RecordList from "./components/RecordList";
-import RecordAgents from "./components/RecordAgents"; // Import RecordAgents
-import RecordListAgents from "./components/RecordListAgents"; // Import RecordListAgents
+import RecordAgents from "./components/RecordAgents";
+import RecordListAgents from "./components/RecordListAgents";
+import Login from "./components/Login";
 import "./index.css";
-import Login from "./components/Login"; // Import the login component
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App />,  // Protect this route with App
     children: [
       {
         path: "/",
@@ -44,36 +44,36 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/agents/login",
-    element: <Login />,  // Add login route
+    path: "/agents/login",  // No protection needed here
+    element: <Login />,
   },
   {
-    path: "/agents", // Add the route for agents
+    path: "/agents",  // Protect agents-related routes
     element: <App />,
     children: [
       {
         path: "/agents",
-        element: <RecordListAgents />, // Display all agents
+        element: <RecordListAgents />,
       },
     ],
   },
   {
-    path: "/agents/create", // Route for creating a new agent
+    path: "/agents/create",  // Protect create agent
     element: <App />,
     children: [
       {
         path: "/agents/create",
-        element: <RecordAgents />, // Form to create a new agent
+        element: <RecordAgents />,
       },
     ],
   },
   {
-    path: "/agents/edit/:id", // Route for editing an existing agent
+    path: "/agents/edit/:id",  // Protect edit agent
     element: <App />,
     children: [
       {
         path: "/agents/edit/:id",
-        element: <RecordAgents />, // Form to edit an existing agent
+        element: <RecordAgents />,
       },
     ],
   },

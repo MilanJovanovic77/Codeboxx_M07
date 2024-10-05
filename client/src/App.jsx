@@ -1,17 +1,20 @@
 import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 
 const App = () => {
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const navigate = useNavigate();
 
-  // Function to go back to the previous page
-  const handleBack = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/agents/login");  // Redirect to login if no token
+    }
+  }, [navigate]);
 
   return (
     <div className="w-full p-6">
-      <Navbar onBack={handleBack} />
+      <Navbar /> {/* Keep the Navbar available across pages */}
       <Outlet />
     </div>
   );

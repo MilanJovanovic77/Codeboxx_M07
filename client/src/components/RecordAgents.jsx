@@ -15,45 +15,55 @@ export default function RecordAgents() {
   const params = useParams();
   const navigate = useNavigate();
 
+  // Fetch the agent data for editing if an ID is provided in the URL
   useEffect(() => {
     async function fetchData() {
       const id = params.id?.toString() || undefined;
-      if (!id) return;
-      const response = await fetch(`http://localhost:5050/agents/${params.id}`);
+      if (!id) return; // No ID means we're creating a new agent
+      const token = localStorage.getItem("token");  // Get token from localStorage
+      const response = await fetch(`http://localhost:5050/agents/${id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`, // Include JWT token in headers
+        },
+      });
       if (!response.ok) {
         console.error(`An error has occurred: ${response.statusText}`);
         return;
       }
       const record = await response.json();
-      setForm(record);  // Set form state with the raw numbers from DB
+      setForm(record);  // Populate the form with the fetched agent data
     }
     fetchData();
   }, [params.id, navigate]);
 
+  // Function to update form state when input fields change
   function updateForm(value) {
     setForm((prev) => ({ ...prev, ...value }));
   }
 
+  // Function to handle form submission (for both creating and updating)
   async function onSubmit(e) {
     e.preventDefault();
 
-    // Prepare the form data for submission (strip formatting if necessary)
-    const person = {
+    // Prepare the form data for submission (converting string inputs to numbers if necessary)
+    const agentData = {
       ...form,
       fee: parseFloat(form.fee) || 0,  // Convert fee input to a number
       sales: parseFloat(form.sales) || 0,  // Convert sales input to a number
     };
 
-    const method = params.id ? "PATCH" : "POST";
+    const method = params.id ? "PATCH" : "POST";  // Determine whether to update or create
     const url = `http://localhost:5050/agents/${params.id || ""}`;
+    const token = localStorage.getItem("token");  // Retrieve JWT token from localStorage
 
     try {
       const response = await fetch(url, {
         method: method,
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,  // Include the JWT token in headers
         },
-        body: JSON.stringify(person),
+        body: JSON.stringify(agentData),
       });
 
       if (!response.ok) {
@@ -72,7 +82,7 @@ export default function RecordAgents() {
         position: "",
         sales: "",
       });
-      navigate("/agents");
+      navigate("/agents");  // Navigate back to the agents list after saving
     }
   }
 

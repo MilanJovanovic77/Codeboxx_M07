@@ -5,7 +5,7 @@ import rocketLogo from "../assets/images/rocketElevators/rocketLogo.png"; // Imp
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Control for password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false); // Control for showing the modal
   const navigate = useNavigate();
@@ -29,6 +29,8 @@ export default function Login() {
       } else if (!response.ok) {
         setError(data.error);
       } else {
+        // Store JWT token in localStorage
+        localStorage.setItem("token", data.token);
         navigate("/agents"); // Successful login, redirect to /agents
       }
 
@@ -40,25 +42,21 @@ export default function Login() {
     }
   };
 
-  // Function to close the modal and reset the error
   const handleCloseModal = () => {
-    setShowModal(false); // Hide the modal
-    setError(""); // Clear the error message
+    setShowModal(false);
+    setError(""); 
   };
 
-  // Toggle the password visibility
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState); // Toggle password visibility
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
     <>
-      {/* Display the Rocket Elevators logo at the top */}
       <div className="flex justify-center my-4">
         <img alt="Rocket Elevators logo" className="h-20" src={rocketLogo} />
       </div>
 
-      {/* Center the login form */}
       <div className="flex items-center justify-center min-h-screen">
         <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-8">
           <h3 className="text-lg font-semibold text-center">Login</h3>
@@ -83,7 +81,7 @@ export default function Login() {
                 Password
               </label>
               <input
-                type={showPassword ? "text" : "password"} // Toggle between text and password
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 className="mt-2 p-2 border w-full"
@@ -91,10 +89,9 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              {/* Eye Icon */}
               <span
                 className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
-                onClick={togglePasswordVisibility} // Toggle password visibility on click
+                onClick={togglePasswordVisibility}
               >
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,18 +113,13 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Modal for showing error */}
       {showModal && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
           <div className="relative bg-white p-6 rounded-lg shadow-lg">
-            {/* Position the X button on the top-right of the modal content */}
-            <button
-              className="absolute top-1 right-1 text-gray-500 hover:text-gray-700"
-              onClick={handleCloseModal} // Use the handleCloseModal function
-            >
+            <button className="absolute top-1 right-1 text-gray-500 hover:text-gray-700" onClick={handleCloseModal}>
               X
             </button>
-            <p className="text-red-500 text-center">{error}</p> {/* Center the error text */}
+            <p className="text-red-500 text-center">{error}</p>
           </div>
         </div>
       )}
