@@ -7,13 +7,163 @@
 
 # Github : git@github.com:MilanJovanovic77/Codeboxx_M07.git
 
-# Video link :
+# Video link : https://vimeo.com/1016366932/b860f1c1eb
 
 # MongoDB : mongodb+srv://milanj:XKFbNiHrllIrnC30@codeboxxm07.qmxk0.mongodb.net/
     P : XKFbNiHrllIrnC30
     IP address (70.52.72.9)
 
+# ---------------------------------------------------------------------------------------------------
 
+Rocket Elevators Management System
+This is a full-stack web application built to manage agents, records, and other employee data. The application uses MongoDB as the database, Express as the backend framework, and React for the frontend. The application is secured using JWT (JSON Web Token) authentication.
+
+# Table of Contents
+# Project Structure
+# Prerequisites
+# Environment Variables
+# Backend Setup
+# Frontend Setup
+# Running the Application
+# API Endpoints
+# Important Notes
+
+
+# Project Structure
+Arborescence
+.
+├── backend
+│   ├── server.js              # Entry point for the backend
+│   ├── routes
+│   │   ├── auth.js            # Handles user login and authentication
+│   │   ├── record.js          # Handles record-related operations
+│   │   ├── recordagent.js     # Handles agent-related operations
+│   ├── db
+│   │   ├── connection.js      # Handles MongoDB connection
+│   ├── middleware
+│   │   ├── verifyToken.js     # JWT middleware for protecting routes
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   │   ├── Login.jsx      # Login page for user authentication
+│   │   │   ├── RecordAgents.jsx  # Form for creating or updating agents
+│   │   │   ├── RecordListAgents.jsx  # Lists all agents
+│   │   │   ├── Navbar.jsx     # Navigation bar with back and create buttons
+│   │   ├── App.jsx            # Main application structure with routing
+│   │   ├── main.jsx           # Entry point for the frontend React application
+│   ├── public
+│   │   ├── index.html         # HTML template for the React app
+├── README.md                  # Documentation for setting up and deploying the app
+└── .env                       # Environment variables for the backend
+
+
+# Prerequisites
+Before you begin, make sure you have the following installed:
+
+Node.js (v14.x or higher)
+MongoDB (local or cloud-based such as MongoDB Atlas)
+npm (Node Package Manager)
+
+# Environment Variables
+You will need to create a .env file in the root of the backend directory to store sensitive information such as the MongoDB connection string and JWT secret.
+
+Sample .env file:
+# .env
+PORT=5050
+MONGO_URI=mongodb+srv://yourUsername:yourPassword@cluster0.mongodb.net/yourDatabase?retryWrites=true&w=majority
+JWT_SECRET=R0ck3t3L3vat0r
+
+PORT: The port where your backend server will run.
+MONGO_URI: The connection string for your MongoDB database (MongoDB Atlas or local MongoDB).
+JWT_SECRET: A secret string used to sign the JWT tokens for secure authentication.
+
+# Backend Setup
+Navigate to the backend folder: cd backend
+Install dependencies: npm install
+
+Setup MongoDB Connection:
+
+Ensure your MongoDB connection is correctly set up in the .env file. You can use MongoDB Atlas or run MongoDB locally.
+
+Run the Backend Server:
+
+Start the Express server for the backend: npm start
+
+# Frontend Setup
+Navigate to the frontend folder: cd frontend
+
+Install dependencies: npm install
+
+Run the Frontend Application:
+
+Start the React development server: npm start
+
+# Running the Application
+Start Backend: Run the backend server by navigating to the backend folder and executing npm start.
+Start Frontend: Run the frontend by navigating to the frontend folder and executing npm start.
+Access the App: Open your browser and navigate to http://localhost:5173 to use the application.
+
+# API Endpoints
+Below are the key API endpoints available in the backend (handled by Express):
+
+POST /agents/login: User login and token generation.
+
+Body:
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Response:
+{
+  "message": "Login successful!",
+  "token": "JWT_TOKEN_HERE"
+}
+
+GET /agents: Get a list of all agents (requires token).
+
+Headers:
+{
+  "Authorization": "Bearer JWT_TOKEN_HERE"
+}
+
+POST /agents: Create a new agent (requires token).
+
+Body:
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com",
+  "position": "Agent",
+  "region": "North",
+  "rating": 90,
+  "fee": 100,
+  "sales": 10000
+}
+
+PATCH /agents/
+: Update an existing agent (requires token).
+
+Headers:
+{
+  "Authorization": "Bearer JWT_TOKEN_HERE"
+}
+
+DELETE /agents/
+: Delete an agent (requires token).
+
+Headers:
+{
+  "Authorization": "Bearer JWT_TOKEN_HERE"
+}
+
+# Important Notes
+JWT Authentication: All routes that manage agents are protected using JWT. Make sure to store the token in localStorage after login and include it in the Authorization header for subsequent requests.
+Token Expiry: Ensure that your tokens are valid for the duration you need. By default, they expire after 1 hour (set in the backend when generating the JWT).
+CORS: The backend has CORS enabled. Ensure that your frontend and backend are running on different ports (5050 for backend, 5173 for frontend).
+
+END
+# ---------------------------------------------------------------------------------------------------
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
